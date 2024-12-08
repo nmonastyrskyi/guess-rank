@@ -8,7 +8,7 @@ import {
 	WRONG_ANSWER_TIME_PENALTY_IN_SECONDS,
 } from '@/constants';
 import {Hand, Rank} from '@/types';
-import {generateNewHand, generateRankOptions, getRank} from '@/utils';
+import {generateHand, generateRankOptions, getRank} from '@/utils';
 
 interface GameStoreState extends GameStoreProps {
 	startGame: () => void;
@@ -80,7 +80,7 @@ export const useGameStore = create(
 
 			// Actions
 			startGame: () => {
-				const hand = generateNewHand();
+				const hand = generateHand();
 				const timeoutInSeconds = get().settings.timeoutInSeconds;
 				const currentRank = getRank(hand);
 				const rankOptions = generateRankOptions(currentRank);
@@ -109,7 +109,7 @@ export const useGameStore = create(
 				const timeBeingPaused = Date.now() - pauseTime;
 				const newEndTime = endTime + timeBeingPaused;
 
-				const hand = generateNewHand();
+				const hand = generateHand();
 				const newCurrentRank = getRank(hand);
 				const rankOptions = generateRankOptions(newCurrentRank);
 

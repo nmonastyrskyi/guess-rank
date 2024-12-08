@@ -1,4 +1,4 @@
-export * from './generateNewHand';
+export * from './generateHand';
 export * from './generateRankOptions';
 export * from './getRank';
 export * from './cn';

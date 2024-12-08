@@ -1,12 +1,12 @@
 import {CARD_SUITS, CARD_VALUES, RANKS} from './constants';
 
-export type Hand = readonly [Card, Card, Card, Card, Card];
+export type Hand = Card[];
 
 export type Rank = (typeof RANKS)[number];
 
 export type Card = `${CardValue}${CardSuit}`;
 
-type CardValue = (typeof CARD_VALUES)[number];
+export type CardValue = (typeof CARD_VALUES)[number];
 
 /**
  * D - Diamonds;
@@ -14,4 +14,4 @@ type CardValue = (typeof CARD_VALUES)[number];
  * H - Hearts;
  * S - Spades;
  */
-type CardSuit = (typeof CARD_SUITS)[number];
+export type CardSuit = (typeof CARD_SUITS)[number];
