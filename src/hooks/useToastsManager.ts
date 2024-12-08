@@ -1,5 +1,5 @@
 import useEvent from 'react-use-event-hook';
-import {useToast} from './use-toast';
+import {useToast} from './useToast';
 import {useGameStore} from '@/store';
 import {useEffect} from 'react';
 

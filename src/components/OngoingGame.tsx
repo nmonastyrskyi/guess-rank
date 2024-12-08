@@ -1,8 +1,8 @@
-import {useGameStore} from '@/store';
 import {FC} from 'react';
+import {useGameStore} from '@/store';
 import {Button, Card, Toaster} from '@/components/ui';
+import {useToast} from '@/hooks';
 import {CountdownTimer} from './CountdownTimer';
-import {useToast} from '@/hooks/use-toast';
 
 export const OngoingGame: FC = () => {
 	const hand = useGameStore((s) => s.hand);
