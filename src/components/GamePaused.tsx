@@ -31,19 +31,20 @@ export const GamePaused: FC = () => {
 		<div className="text-center p-4 md:p-8 lg:p-16 xl:p-32">
 			<p className="text-3xl text-green-700">Good game!</p>
 			<p className="text-xl mt-4">5 seconds earned</p>
-
-			<section className="mt-4 flex flex-col items-center">
-				{isLoading ? (
-					<p>Loading a joke...</p>
-				) : (
-					<>
-						<p className="text-lg">
-							Here's a joke for you by keyword: <b>{word}</b>
-						</p>
-						<p className="max-w-72 mt-4">{joke}</p>
-					</>
-				)}
-			</section>
+			{import.meta.env.DEV && (
+				<section className="mt-4 flex flex-col items-center">
+					{isLoading ? (
+						<p>Loading a joke...</p>
+					) : (
+						<>
+							<p className="text-lg">
+								Here's a joke for you by keyword: <b>{word}</b>
+							</p>
+							<p className="max-w-72 mt-4">{joke}</p>
+						</>
+					)}
+				</section>
+			)}
 			<Button disabled={isLoading} className="mt-4 text-lg" size="lg" variant="outline" onClick={nextRound}>
 				{isLoading ? "Don't click, wait for the joke" : 'Next round'}
 			</Button>
