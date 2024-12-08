@@ -6,7 +6,11 @@ Hi there! Welcome to my assignment for the Guess the Rank game.
 
 ## Demo
 You can check out the live demo of the project [here](https://nmonastyrskyi.github.io/guess-rank/).
+> [!NOTE]
+The demo is hosted on GitHub Pages, as I didn't want to expose the API keys, there are no real requests for the random word and joke generation.
 
+> [!TIP]
+If you want to see the full functionality, please follow the instructions below to run the project locally.
 
 ## How to Run
 1. Clone the repository:
