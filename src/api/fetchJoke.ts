@@ -1,11 +1,13 @@
 export function fetchJoke(word: string): Promise<string> {
-	const auth = `Bearer ${import.meta.env.VITE_OPEN_AI_KEY}`;
+	if (import.meta.env.PROD) {
+		return Promise.resolve("No funny joke, as don't want to expose API key");
+	}
 
 	return fetch('https://api.openai.com/v1/chat/completions', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: auth,
+			Authorization: `Bearer ${import.meta.env.VITE_OPEN_AI_KEY}`,
 		},
 		body: JSON.stringify({
 			model: 'gpt-4o',

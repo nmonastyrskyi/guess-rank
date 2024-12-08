@@ -1,10 +1,12 @@
 export function fetchRandomWord(): Promise<string> {
-	const VITE_API_NINJA_KEY = import.meta.env.VITE_API_NINJA_KEY;
+	if (import.meta.env.PROD) {
+		return Promise.resolve("No funny word, as don't want to expose API key");
+	}
 
 	return fetch('https://api.api-ninjas.com/v1/randomword', {
 		method: 'GET',
 		headers: {
-			'X-Api-Key': VITE_API_NINJA_KEY,
+			'X-Api-Key': import.meta.env.VITE_API_NINJA_KEY,
 		},
 	})
 		.then((response) => response.json())
