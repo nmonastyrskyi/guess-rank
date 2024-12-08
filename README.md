@@ -1,7 +1,12 @@
 # Guess the Ranking Game
 
+
 ## Description
-Hi there! Welcome to my assignment for the Guess the Rank game. This game allows you to guess the ranking of various items and provides a fun way to test your knowledge.
+Hi there! Welcome to my assignment for the Guess the Rank game.
+
+## Demo
+You can check out the live demo of the project [here](https://nmonastyrskyi.github.io/guess-rank/).
+
 
 ## How to Run
 1. Clone the repository:
