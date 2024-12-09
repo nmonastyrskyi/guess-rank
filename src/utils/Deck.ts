@@ -4,6 +4,7 @@ import {parseCard} from './parseCard';
 import {getRank} from './getRank';
 
 export interface Deck {
+	getHighCard(): Hand;
 	getPair(): Hand;
 	getTwoPairs(): Hand;
 	getThreeOfAKind(): Hand;
@@ -12,7 +13,7 @@ export interface Deck {
 	getFullHouse(): Hand;
 	getFourOfAKind(): Hand;
 	getStraightFlush(): Hand;
-	getHighCard(): Hand;
+	getRoyalFlush(): Hand;
 }
 
 class DeckImpl implements Deck {
@@ -130,6 +131,13 @@ class DeckImpl implements Deck {
 		this.resetDeck();
 
 		return this.shuffle([card1, card2, card3, card4, card5]);
+	}
+
+	getRoyalFlush(): Hand {
+		const suit = CARD_SUITS[Math.floor(Math.random() * CARD_SUITS.length)];
+		const royalFlush = (['T', 'J', 'Q', 'K', 'A'] as const).map<Card>((value) => `${value}${suit}`);
+
+		return this.shuffle(royalFlush);
 	}
 
 	private pickNonPairCard = (pairCard: Card | Card[]): Card => {

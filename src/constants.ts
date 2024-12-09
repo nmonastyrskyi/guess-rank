@@ -14,6 +14,7 @@ export const RANKS = [
 	'Full House',
 	'Four of a Kind',
 	'Straight Flush',
+	'Royal Flush',
 ] as const;
 
 export const DEFAULT_RANK = RANKS[0];
