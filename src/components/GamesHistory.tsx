@@ -14,7 +14,7 @@ export const GamesHistory: FC = () => {
 			<h2 className="mt-8 text-lg font-semibold">
 				Past games: <span className="text-muted-foreground">({gameHistory.length})</span>
 			</h2>
-			<Table className="mt-2 max-w-xl mx-auto">
+			<Table className="mt-4 max-w-xl mx-auto">
 				<TableHeader>
 					<TableRow>
 						<TableHead>Game</TableHead>
@@ -24,7 +24,7 @@ export const GamesHistory: FC = () => {
 				<TableBody>
 					{gameHistory.map((game, index) => (
 						<TableRow key={index}>
-							<TableCell>{index + 1}</TableCell>
+							<TableCell>Game {index + 1}</TableCell>
 							<TableCell>{game.score}</TableCell>
 						</TableRow>
 					))}

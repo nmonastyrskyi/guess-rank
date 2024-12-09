@@ -13,7 +13,7 @@ export const OngoingGame: FC = () => {
 
 	return (
 		<div className="md:px-8 lg:px-16 xl:px-32">
-			<header className="p-4 border-b border-b-gray-300 flex justify-end">
+			<header className="p-4 border-b border-b-gray-300 flex justify-center md:justify-end">
 				<CountdownTimer />
 			</header>
 			<Toaster />

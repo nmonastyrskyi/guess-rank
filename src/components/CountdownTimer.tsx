@@ -14,10 +14,11 @@ export const CountdownTimer: FC = () => {
 	});
 
 	return (
-		<div>
+		<div className="text-xl">
 			{timer ? (
 				<p>
-					<b>{timer}</b> seconds left
+					<b>{timer}</b>
+					<span className="hidden md:inline"> seconds left</span>
 				</p>
 			) : (
 				<p>Time's up!</p>
