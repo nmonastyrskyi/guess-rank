@@ -68,7 +68,11 @@
     @apply h-full w-full;
   }
 
+  body {
+    @apply p-4;
+  }
+
   #root {
-    @apply p-4
+    @apply overflow-x-hidden overflow-y-auto;
   }
 }

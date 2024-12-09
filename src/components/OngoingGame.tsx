@@ -13,7 +13,7 @@ export const OngoingGame: FC = () => {
 
 	return (
 		<div className="md:px-8 lg:px-16 xl:px-32">
-			<header className="p-4 border-b border-b-gray-300 flex justify-center md:justify-end">
+			<header className="sticky top-0 z-10 bg-white p-4 pt-0 border-b border-b-gray-300 flex justify-center md:justify-end">
 				<CountdownTimer />
 			</header>
 			<Toaster />
@@ -29,7 +29,7 @@ export const OngoingGame: FC = () => {
 				</section>
 				<section className="mt-8 flex flex-col items-center">
 					<p className="text-lg text-center">Select the correct hand ranking:</p>
-					<ul className="flex flex-col md:flex-row gap-2 mt-2">
+					<ul className="flex flex-col sm:flex-row gap-2 mt-2">
 						{rankOptions.map((rank) => (
 							<li key={rank}>
 								<Button

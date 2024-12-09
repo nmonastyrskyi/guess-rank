@@ -10,7 +10,7 @@ export const GameOver: FC = () => {
 
 	return (
 		<div className="flex flex-col  justify-center items-center md:px-8 lg:px-16 xl:px-32">
-			<header className="w-full sticky top-0 p-4 bg-white border-b border-b-gray-300 flex justify-center md:justify-end">
+			<header className="w-full sticky top-0 p-4 pt-0 bg-white border-b border-b-gray-300 flex justify-center md:justify-end">
 				<Button variant="destructive" size="lg" className="mt-2" onClick={clearHistory}>
 					Clear history
 				</Button>
