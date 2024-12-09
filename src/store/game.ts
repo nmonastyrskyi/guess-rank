@@ -20,6 +20,7 @@ interface GameStoreState extends GameStoreProps {
 	 */
 	guessRank: (rank: Rank) => boolean;
 	addGameToHistory: (entry: GameHistoryEntry) => void;
+	clearHistory: () => void;
 }
 
 interface GameStoreProps {
@@ -191,6 +192,12 @@ export const useGameStore = create(
 						return {...state, endTime: newEndTime};
 					});
 				}
+			},
+			clearHistory: () => {
+				set({
+					history: [],
+					state: 'idle',
+				});
 			},
 		}),
 		{
