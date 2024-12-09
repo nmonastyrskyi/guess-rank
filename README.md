@@ -1,16 +1,39 @@
 # Guess the Ranking Game
 
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+## Live Demo
+
+<div align="center">
+  <h3>
+    <a href="https://nmonastyrskyi.github.io/guess-rank/" target="_blank">
+      👉 Try the Game Now! 👈
+    </a>
+  </h3>
+</div>
+
+> [!NOTE]
+> The demo is hosted on GitHub Pages. API features (random word and joke generation) are disabled to protect API keys.
+
+> [!TIP]
+> For full functionality, including API features, run the project locally using the instructions below.
 
 ## Description
 Hi there! Welcome to my assignment for the Guess the Rank game.
 
-## Demo
-You can check out the live demo of the project [here](https://nmonastyrskyi.github.io/guess-rank/).
-> [!NOTE]
-The demo is hosted on GitHub Pages, as I didn't want to expose the API keys, there are no real requests for the random word and joke generation.
-
-> [!TIP]
-If you want to see the full functionality, please follow the instructions below to run the project locally.
+## Game Rules
+1. You'll be presented with a poker hand
+     - 5 cards are dealt from a standard 52-card deck
+     - Each rank has an equal chance of appearing
+2. Your goal is to guess the correct ranking of the hand
+     - The ranking can be anything from a high card to a royal flush
+3. Each correct guess earns you 1 point and adds a 5 second bonus to the timer
+4. Each incorrect guess subtracts 5 seconds from the timer
+5. The game continues until the timer runs out
+6. Try to achieve the highest score possible!
 
 ## How to Run
 1. Clone the repository:
