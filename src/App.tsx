@@ -3,7 +3,7 @@ import {useGameStore} from './store/game';
 import {IdleGame} from './components/IdleGame';
 import {OngoingGame} from './components/OngoingGame';
 import {GameOver} from './components/GameOver';
-import {GamePaused} from './components/GamePaused';
+import {GameRoundCompleted} from './components/GameRoundCompleted';
 import {usePreloadCardImages, useToastsManager} from './hooks';
 
 export const App: FC = () => {
@@ -16,8 +16,8 @@ export const App: FC = () => {
 		return <IdleGame />;
 	}
 
-	if (gameState === 'paused') {
-		return <GamePaused />;
+	if (gameState === 'round-completed') {
+		return <GameRoundCompleted />;
 	}
 
 	if (gameState === 'game-over') {

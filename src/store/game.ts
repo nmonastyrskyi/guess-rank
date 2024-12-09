@@ -53,7 +53,7 @@ interface GameHistoryEntry {
 	score: number;
 }
 
-type GameState = 'idle' | 'playing' | 'game-over' | 'paused';
+type GameState = 'idle' | 'playing' | 'game-over' | 'round-completed';
 
 const defaultGameStoreProps: GameStoreProps = {
 	state: 'idle',
@@ -105,7 +105,7 @@ export const useGameStore = create(
 				});
 			},
 			nextRound: () => {
-				const {pauseTime, endTime, score} = get();
+				const {pauseTime, endTime} = get();
 				const timeBeingPaused = Date.now() - pauseTime;
 				const newEndTime = endTime + timeBeingPaused;
 
@@ -114,12 +114,10 @@ export const useGameStore = create(
 				const rankOptions = generateRankOptions(newCurrentRank);
 
 				set({
+					state: 'playing',
 					hand,
 					rankOptions,
 					currentRank: newCurrentRank,
-					wrongRankGuesses: [],
-					score: score + 1,
-					state: 'playing',
 					endTime: newEndTime,
 				});
 			},
@@ -140,7 +138,7 @@ export const useGameStore = create(
 
 				function rightGuess() {
 					addTimeBonus();
-					pauseGame();
+					completeRound();
 					return true;
 				}
 
@@ -150,9 +148,15 @@ export const useGameStore = create(
 					return false;
 				}
 
-				function pauseGame() {
+				function completeRound() {
 					set((state) => {
-						return {...state, state: 'paused', pauseTime: Date.now()};
+						return {
+							...state,
+							state: 'round-completed',
+							score: state.score + 1,
+							wrongRankGuesses: [],
+							pauseTime: Date.now(),
+						};
 					});
 				}
 

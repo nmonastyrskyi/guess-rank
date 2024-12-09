@@ -3,10 +3,11 @@ import {FC, useEffect, useState} from 'react';
 import {Button} from './ui';
 import {useGameStore} from '@/store';
 
-export const GamePaused: FC = () => {
+export const GameRoundCompleted: FC = () => {
 	const [word, setWord] = useState<string>('');
 	const [joke, setJoke] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const score = useGameStore((s) => s.score);
 	const nextRound = useGameStore((s) => s.nextRound);
 
 	useEffect(() => {
@@ -31,6 +32,8 @@ export const GamePaused: FC = () => {
 		<div className="text-center p-4 md:p-8 lg:p-16 xl:p-32">
 			<p className="text-3xl text-green-700">Good game!</p>
 			<p className="text-xl mt-4">5 seconds earned</p>
+			<p className="text-lg mt-4">Current score:</p>
+			<p className="text-2xl mt-2 font-bold">{score}</p>
 			{import.meta.env.DEV && (
 				<section className="mt-4 flex flex-col items-center">
 					{isLoading ? (
