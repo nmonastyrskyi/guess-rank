@@ -1,6 +1,7 @@
 import {CARD_SUITS, CARD_VALUES} from '@/constants';
-import {Card, CardSuit, Hand} from '@/types';
+import {Card, CardSuit, CardValue, Hand} from '@/types';
 import {parseCard} from './parseCard';
+import {getRank} from './getRank';
 
 export interface Deck {
 	getPair(): Hand;
@@ -11,7 +12,7 @@ export interface Deck {
 	getFullHouse(): Hand;
 	getFourOfAKind(): Hand;
 	getStraightFlush(): Hand;
-	getRandomHand(): Hand;
+	getHighCard(): Hand;
 }
 
 class DeckImpl implements Deck {
@@ -29,28 +30,16 @@ class DeckImpl implements Deck {
 	}
 
 	getRandomHand(): Hand {
-		return this.shuffle(this.cards.slice(0, 5));
+		return this.shuffle(this.cards).slice(0, 5);
 	}
 
 	getPair(): Hand {
 		const card1 = this.pickRandomCard();
 		const card2 = this.pickPair(card1);
 
-		let card3 = this.pickRandomCard();
-		let card4 = this.pickRandomCard();
-		let card5 = this.pickRandomCard();
-
-		while (parseCard(card3).value === parseCard(card1).value) {
-			card3 = this.pickRandomCard();
-		}
-
-		while (parseCard(card4).value === parseCard(card1).value) {
-			card4 = this.pickRandomCard();
-		}
-
-		while (parseCard(card5).value === parseCard(card1).value) {
-			card5 = this.pickRandomCard();
-		}
+		const card3 = this.pickNonPairCard(card1);
+		const card4 = this.pickNonPairCard([card1, card3]);
+		const card5 = this.pickNonPairCard([card1, card3, card4]);
 
 		this.resetDeck();
 		return this.shuffle([card1, card2, card3, card4, card5]);
@@ -59,19 +48,11 @@ class DeckImpl implements Deck {
 	getTwoPairs(): Hand {
 		const card1 = this.pickRandomCard();
 		const card2 = this.pickPair(card1);
-		let card3 = this.pickRandomCard();
-
-		while (parseCard(card3).value === parseCard(card1).value) {
-			card3 = this.pickRandomCard();
-		}
+		const card3 = this.pickNonPairCard(card1);
 
 		const card4 = this.pickPair(card3);
 
-		let card5 = this.pickRandomCard();
-
-		while (parseCard(card5).value === parseCard(card1).value || parseCard(card5).value === parseCard(card3).value) {
-			card5 = this.pickRandomCard();
-		}
+		const card5 = this.pickNonPairCard([card1, card3]);
 
 		this.resetDeck();
 
@@ -83,17 +64,9 @@ class DeckImpl implements Deck {
 		const card2 = this.pickPair(card1);
 		const card3 = this.pickPair(card1);
 
-		let card4 = this.pickRandomCard();
+		const card4 = this.pickNonPairCard(card1);
 
-		while (parseCard(card4).value === parseCard(card1).value) {
-			card4 = this.pickRandomCard();
-		}
-
-		let card5 = this.pickRandomCard();
-
-		while (parseCard(card5).value === parseCard(card1).value) {
-			card5 = this.pickRandomCard();
-		}
+		const card5 = this.pickNonPairCard([card1, card4]);
 
 		this.resetDeck();
 
@@ -101,17 +74,46 @@ class DeckImpl implements Deck {
 	}
 
 	getStraight(): Hand {
-		const startIndex = Math.floor(Math.random() * (CARD_VALUES.length - 5));
-		const straight = CARD_VALUES.slice(startIndex, startIndex + 5).map<Card>((value) => `${value}${this.randomSuit()}`);
+		const straightCardValues = this.getStraightCardValues();
+
+		const startIndex = Math.floor(Math.random() * (straightCardValues.length - 5));
+		const straight = straightCardValues
+			.slice(startIndex, startIndex + 5)
+			.map<Card>((value) => `${value}${this.randomSuit()}`);
+
+		excludeStraightFlush();
+
+		function excludeStraightFlush() {
+			if (getRank(straight) === 'Straight Flush') {
+				const currentSuit = parseCard(straight[0]).suit;
+				const newSuit = CARD_SUITS.find((suit) => suit !== currentSuit)!;
+				const index = Math.floor(Math.random() * 5);
+				straight[index] = `${parseCard(straight[index]).value}${newSuit}`;
+			}
+		}
 
 		return this.shuffle(straight);
 	}
 
+	private getStraightCardValues(): CardValue[] {
+		return ['A', ...CARD_VALUES];
+	}
+
 	getFlush(): Hand {
 		const suit = CARD_SUITS[Math.floor(Math.random() * CARD_SUITS.length)];
-		const flush = this.shuffle(this.cards)
-			.filter((card) => card[1] === suit)
-			.slice(0, 5);
+		const shuffledOneSuiteCards = this.shuffle(this.cards).filter((card) => parseCard(card).suit === suit);
+
+		const flush = shuffledOneSuiteCards.slice(0, 5);
+
+		excludeStraightFlush();
+
+		function excludeStraightFlush() {
+			let index = 5;
+			while (getRank(flush) === 'Straight Flush') {
+				flush[0] = shuffledOneSuiteCards[index];
+				index++;
+			}
+		}
 
 		return flush;
 	}
@@ -121,17 +123,28 @@ class DeckImpl implements Deck {
 		const card2 = this.pickPair(card1);
 		const card3 = this.pickPair(card1);
 
-		let card4 = this.pickRandomCard();
+		const card4 = this.pickNonPairCard(card1);
 
-		while (parseCard(card4).value === parseCard(card1).value) {
-			card4 = this.pickRandomCard();
-		}
 		const card5 = this.pickPair(card4);
 
 		this.resetDeck();
 
 		return this.shuffle([card1, card2, card3, card4, card5]);
 	}
+
+	private pickNonPairCard = (pairCard: Card | Card[]): Card => {
+		const pairCardValuesArr = Array.isArray(pairCard)
+			? pairCard.map((c) => parseCard(c).value)
+			: [parseCard(pairCard).value];
+
+		let card = this.pickRandomCard();
+
+		while (pairCardValuesArr.includes(parseCard(card).value)) {
+			card = this.pickRandomCard();
+		}
+
+		return card;
+	};
 
 	getFourOfAKind(): Hand {
 		const card1 = this.pickRandomCard();
@@ -146,11 +159,22 @@ class DeckImpl implements Deck {
 	}
 
 	getStraightFlush(): Hand {
+		const straightCardValues = this.getStraightCardValues();
 		const suit = this.randomSuit();
-		const startIndex = Math.floor(Math.random() * (CARD_VALUES.length - 5));
-		const straight = CARD_VALUES.slice(startIndex, startIndex + 5).map<Card>((value) => `${value}${suit}`);
+		const startIndex = Math.floor(Math.random() * (straightCardValues.length - 5));
+		const straight = straightCardValues.slice(startIndex, startIndex + 5).map<Card>((value) => `${value}${suit}`);
 
 		return this.shuffle(straight);
+	}
+
+	getHighCard(): Hand {
+		let hand = this.getRandomHand();
+
+		while (getRank(hand) !== 'High Card') {
+			hand = this.getRandomHand();
+		}
+
+		return hand;
 	}
 
 	private pickPair(card: Card): Card {

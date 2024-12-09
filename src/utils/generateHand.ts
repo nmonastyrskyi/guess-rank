@@ -5,6 +5,7 @@ import {RANKS} from '@/constants';
 export function generateHand(): Hand {
 	const deck = createDeck();
 	const rank = getRandomRank();
+	console.info('🚀 ~ Rank should be: ', rank);
 
 	switch (rank) {
 		case 'Pair':
@@ -23,8 +24,10 @@ export function generateHand(): Hand {
 			return deck.getFourOfAKind();
 		case 'Straight Flush':
 			return deck.getStraightFlush();
+		case 'High Card':
+			return deck.getHighCard();
 		default:
-			return deck.getRandomHand();
+			throw new Error('Unknown rank');
 	}
 }
 
